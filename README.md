@@ -1,11 +1,4 @@
 # OBSSW
 
-Simple command line util to switch OBS scenes via the websocket interface.
+Simple command line util to switch OBS scenes via the [websocket interface](https://github.com/Palakis/obs-websocket).
 
-## Build
-
-`go build .`
-
-## Usage
-
-`obssw <scene_index>`

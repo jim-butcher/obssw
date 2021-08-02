@@ -17,7 +17,7 @@ func main() {
 	}
 	err := client.Connect()
 	if err != nil {
-		log.Fatalln("Could not connect to obs websocket")
+		log.Fatal("Could not connect to obs websocket")
 	}
 	defer client.Disconnect()
 	log.Println("Connected to OBS websocket")
@@ -30,7 +30,7 @@ func main() {
 	// get scene name from the list of scenes
 	resp, err := obsws.NewGetSceneListRequest().SendReceive(client)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal(err)
 	}
 
 	sceneName := resp.Scenes[sceneIdx].Name
