@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os"
 
 	obsws "github.com/christopher-dG/go-obs-websocket"
 )
@@ -22,8 +23,14 @@ func main() {
 	defer client.Disconnect()
 	log.Println("Connected to OBS websocket")
 
+	var cameraName string
+	if len(os.Args) == 2 {
+		cameraName = os.Args[1]
+	} else {
+		cameraName, err = getCameraSourceName(client)
+	}
+
 	sceneName := getCurrentSceneName(client)
-	cameraName, err := getCameraSourceName(client)
 	if err != nil {
 		log.Fatal(err)
 	}
