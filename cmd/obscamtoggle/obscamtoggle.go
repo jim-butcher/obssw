@@ -1,12 +1,12 @@
 package main
 
 import (
-	"errors"
-	"fmt"
 	"log"
 	"os"
 
-	obsws "github.com/christopher-dG/go-obs-websocket"
+	"internal/util"
+
+	"obsws"
 )
 
 func main() {
@@ -27,10 +27,10 @@ func main() {
 	if len(os.Args) == 2 {
 		cameraName = os.Args[1]
 	} else {
-		cameraName, err = getCameraSourceName(client)
+		cameraName, err = util.GetCameraSourceName(client)
 	}
 
-	sceneName := getCurrentSceneName(client)
+	sceneName := util.GetCurrentSceneName(client)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -63,28 +63,4 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-}
-
-func getCurrentSceneName(client obsws.Client) string {
-	resp, err := obsws.NewGetCurrentSceneRequest().SendReceive(client)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return resp.Name
-}
-
-func getCameraSourceName(client obsws.Client) (string, error) {
-	resp, err := obsws.NewGetSourcesListRequest().SendReceive(client)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, source := range resp.Sources {
-		if source["typeId"] == "v4l2_input" {
-			return fmt.Sprintf("%v", source["name"]), nil
-		}
-	}
-
-	return "", errors.New("could not find camera source")
 }

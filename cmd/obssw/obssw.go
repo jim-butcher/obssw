@@ -5,7 +5,7 @@ import (
 	"os"
 	"strconv"
 
-	obsws "github.com/christopher-dG/go-obs-websocket"
+	"obsws"
 )
 
 func main() {

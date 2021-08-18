@@ -1,18 +1,22 @@
-build: obssw obscamtoggle
+BUILDPATH ?= build/
+BUILDFLAGS ?= -ldflags "-w" -v -o $(BUILDPATH)
 
-obssw:
-	go build ./cmd/obssw/
+.PHONY: build clean obssw-clean obscamtoggle-clean
+
+build: $(BUILDPATH)/obssw $(BUILDPATH)/obscamtoggle
+
+$(BUILDPATH)/obssw:
+	go build $(BUILDFLAGS) ./cmd/obssw/
 
 obssw-clean:
-	rm obssw
 	go clean ./cmd/obssw/
 
-obscamtoggle:
-	go build ./cmd/obscamtoggle/
+$(BUILDPATH)/obscamtoggle:
+	go build $(BUILDFLAGS) ./cmd/obscamtoggle/
 
 obscamtoggle-clean:
-	rm obscamtoggle
 	go clean ./cmd/obscamtoggle/
 
 clean : obssw-clean obscamtoggle-clean
+	rm -rf $(BUILDPATH)
 	go clean .
